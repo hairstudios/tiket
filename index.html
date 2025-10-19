@@ -121,8 +121,7 @@
             <div class="lg:w-2/3 flex justify-center items-start lg:pt-8">
                 <!-- TIKET VERTICAL DIMULAI DI SINI -->
                 <div id="ticket-preview" class="ticket-container bg-white rounded-lg overflow-hidden flex flex-col typewriter-font">
-                    <!-- CATATAN: Border hitam tebal pada bingkai tiket sudah dihapus -->
-
+                    
                     <!-- BAGIAN UTAMA -->
                     <div class="w-full bg-white p-6 flex-grow text-gray-900">
                         <div class="flex justify-between items-center mb-6 border-b border-gray-300 pb-2">
@@ -159,24 +158,22 @@
                             </div>
                         </div>
 
-                        <!-- Bagian SERIAL NUMBER BARU (Paling Menonjol) -->
-                        <div class="mt-4 text-center">
-                            <div class="text-sm font-extrabold text-red-600 uppercase tracking-widest">VALIDATION SERIAL NUMBER</div>
-                            <!-- Blok Serial Number Merah Penuh -->
-                            <div id="main-serial-container" class="mt-2 inline-block bg-red-600 text-white rounded-lg p-3 shadow-lg w-full">
-                                <div id="main-serial" class="text-5xl font-extrabold tracking-widest leading-none">01234567</div>
-                            </div>
-                        </div>
-
-                        <!-- HARGA -->
-                        <div class="mt-6 border-t border-gray-300 pt-4">
+                        <!-- Bagian HARGA -->
+                        <div class="mt-4 border-t border-gray-300 pt-4">
                             <div class="space-y-1">
                                 <div class="text-xs text-gray-500">PRICE</div>
                                 <div id="main-price" class="text-3xl font-extrabold text-gray-900">IDR 50.000,00</div>
                             </div>
-                            
-                            <p class="text-xs text-gray-500 mt-4 text-center border-t pt-2">E-ticket ini berlaku sebagai alat validasi masuk studio. Mohon tunjukkan layar ini kepada petugas.</p>
                         </div>
+
+                        <!-- Bagian SERIAL NUMBER (Dikecilkan, di bawah harga) -->
+                        <div class="mt-6 pt-2 text-center border-t border-dashed border-gray-300">
+                            <div class="text-xs font-medium text-gray-500 uppercase tracking-wider mb-1">VALIDATION SERIAL NUMBER</div>
+                            <div id="main-serial" class="text-xl font-bold tracking-widest text-gray-800">01234567</div>
+                        </div>
+                        
+                        <!-- FOOTER TEXT -->
+                        <p class="text-xs text-gray-500 mt-4 text-center pt-2 border-t">E-ticket ini berlaku sebagai alat validasi masuk studio. Mohon tunjukkan layar ini kepada petugas.</p>
                     </div>
                 </div>
                 <p class="absolute bottom-4 text-sm text-gray-500 typewriter-font hidden sm:block">Desain ini akan diubah menjadi PNG saat diunduh.</p>
@@ -228,7 +225,7 @@
             document.getElementById('main-time').textContent = ticketData.time;
             // Format IDR dengan koma sebagai pemisah desimal
             document.getElementById('main-price').textContent = `IDR ${ticketData.price.replace(/\./g, ',')}`;
-            // Update serial number di blok besar
+            // Update serial number di blok kecil (INI ADALAH ID YANG HARUS DIPERBAIKI)
             document.getElementById('main-serial').textContent = ticketData.serial || 'XXXXXXXX'; // Tambahkan fallback
         }
 
@@ -242,8 +239,11 @@
             const saveText = document.getElementById('save-text');
             saveText.classList.add('hidden');
             loadingMessage.classList.remove('hidden');
-
-            // === START FIX: Menambahkan jeda waktu untuk memastikan DOM merender teks serial number ===
+            
+            // Memaksa reflow/repaint DOM sebelum mengambil gambar (untuk mencegah race condition)
+            document.getElementById('main-serial').offsetHeight; 
+            
+            // Menjaga jeda waktu (100ms) untuk memastikan rendering teks sederhana selesai 
             setTimeout(() => {
                 const ticketElement = document.getElementById('ticket-preview');
                 const movieTitle = ticketData.title.replace(/ /g, '_');
@@ -285,8 +285,7 @@
                     loadingMessage.classList.add('hidden');
                     saveText.classList.remove('hidden');
                 });
-            }, 50); // Jeda 50ms (cukup cepat)
-            // === END FIX ===
+            }, 100); // Jeda 100ms
         }
 
         // Jalankan saat dokumen selesai dimuat
