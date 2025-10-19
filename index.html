@@ -17,20 +17,17 @@
             /* Desain Vertikal (seperti struk / 9:16) */
             width: 100%;
             max-width: 350px; /* Lebar yang sesuai untuk ponsel */
-            min-height: 550px; /* Tinggi yang memanjang */
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+            /* Mengurangi min-height karena stub dihapus */
+            min-height: 450px; 
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.2); /* Shadow lebih tebal */
             position: relative;
             background-color: #fff;
             display: flex; /* Aktifkan Flexbox */
             flex-direction: column; /* Susun ke bawah */
         }
-        /* Efek robekan (perforasi) - Dibuat horizontal */
+        /* Efek robekan (perforasi) dihapus */
         .tear-off-line {
-            background-image: linear-gradient(to right, #000 33%, rgba(255, 255, 255, 0) 0%);
-            background-position: bottom;
-            background-size: 20px 2px;
-            background-repeat: repeat-x;
-            width: 100%;
+            display: none;
         }
 
         /* Penyesuaian untuk tampilan mobile: form di atas, tiket di bawah */
@@ -114,7 +111,7 @@
                     
                     <button type="button" id="save-button" class="w-full bg-red-600 hover:bg-red-700 text-white font-bold py-2 px-4 rounded-lg shadow-md transition duration-150 ease-in-out mt-6">
                         <span id="loading-message" class="hidden">Memproses...</span>
-                        <span id="save-text">SIMPAN & UNDUH (JPG)</span>
+                        <span id="save-text">SIMPAN & UNDUH (PNG)</span>
                     </button>
                     <p class="text-xs text-gray-500 pt-2 text-center">Nomor serial baru akan dibuat otomatis setelah unduhan berhasil.</p>
                 </form>
@@ -123,24 +120,27 @@
             <!-- Kolom Preview Tiket -->
             <div class="lg:w-2/3 flex justify-center items-start lg:pt-8">
                 <!-- TIKET VERTICAL DIMULAI DI SINI -->
-                <div id="ticket-preview" class="ticket-container bg-white rounded-lg overflow-hidden flex flex-col border-4 border-gray-900 typewriter-font">
+                <div id="ticket-preview" class="ticket-container bg-white rounded-lg overflow-hidden flex flex-col typewriter-font">
+                    <!-- CATATAN: Border hitam tebal pada bingkai tiket sudah dihapus -->
 
-                    <!-- BAGIAN UTAMA (ATAS) - Mengambil sebagian besar ruang -->
+                    <!-- BAGIAN UTAMA -->
                     <div class="w-full bg-white p-6 flex-grow text-gray-900">
-                        <div class="flex justify-between items-center mb-4 border-b border-gray-300 pb-2">
-                            <h2 class="text-2xl font-extrabold uppercase tracking-widest">CINEMA TICKET</h2>
+                        <div class="flex justify-between items-center mb-6 border-b border-gray-300 pb-2">
+                            <h2 class="text-2xl font-extrabold uppercase tracking-widest text-red-600">E-TICKET</h2>
                             <!-- Icon -->
                             <svg xmlns="http://www.w3.org/2000/svg" class="w-6 h-6 text-red-600" viewBox="0 0 24 24" fill="currentColor">
                                 <path d="M12 2C6.477 2 2 6.477 2 12s4.477 10 10 10 10-4.477 10-10S17.523 2 12 2zm-1 15v-6h2v6h-2zm0-8V7h2v2h-2z"/>
                             </svg>
                         </div>
 
+                        <!-- JUDUL FILM -->
                         <div class="mb-6">
                             <div id="main-title" class="text-4xl font-extrabold uppercase leading-none break-words">MOVIE TITLE</div>
                             <div class="text-base font-medium mt-1 text-gray-600" id="main-type">STANDARD</div>
                         </div>
 
-                        <div class="grid grid-cols-2 gap-4 text-sm mb-6">
+                        <!-- DETAIL TAYANG (Grid) -->
+                        <div class="grid grid-cols-2 gap-4 text-sm mb-6 pb-6 border-b border-gray-300">
                             <div>
                                 <div class="text-gray-500">DATE</div>
                                 <div id="main-date" class="text-lg font-bold">19/10/2025</div>
@@ -151,50 +151,35 @@
                             </div>
                             <div>
                                 <div class="text-gray-500">STUDIO</div>
-                                <div id="main-theater" class="text-xl font-bold">2</div>
+                                <div id="main-theater" class="text-xl font-bold text-red-600">2</div>
                             </div>
                             <div>
                                 <div class="text-gray-500">SEAT</div>
-                                <div id="main-seat" class="text-xl font-bold">D12</div>
+                                <div id="main-seat" class="text-xl font-bold text-red-600">D12</div>
                             </div>
                         </div>
 
-                        <!-- Bagian Bawah: Harga dan Serial Number yang lebih menonjol -->
-                        <div class="border-t border-gray-300 pt-4">
+                        <!-- Bagian SERIAL NUMBER BARU (Paling Menonjol) -->
+                        <div class="mt-4 text-center">
+                            <div class="text-sm font-extrabold text-red-600 uppercase tracking-widest">VALIDATION SERIAL NUMBER</div>
+                            <!-- Blok Serial Number Merah Penuh -->
+                            <div id="main-serial-container" class="mt-2 inline-block bg-red-600 text-white rounded-lg p-3 shadow-lg w-full">
+                                <div id="main-serial" class="text-5xl font-extrabold tracking-widest leading-none">01234567</div>
+                            </div>
+                        </div>
+
+                        <!-- HARGA -->
+                        <div class="mt-6 border-t border-gray-300 pt-4">
                             <div class="space-y-1">
                                 <div class="text-xs text-gray-500">PRICE</div>
-                                <div id="main-price" class="text-3xl font-extrabold text-red-600">IDR 50.000,00</div>
-                            </div>
-
-                            <div class="space-y-1 mt-4">
-                                <div class="text-xs text-gray-500">VALIDATION SERIAL NUMBER</div>
-                                <div id="main-serial" class="text-xl font-bold tracking-widest text-gray-900 bg-gray-200 px-3 py-1 rounded inline-block">01234567</div>
+                                <div id="main-price" class="text-3xl font-extrabold text-gray-900">IDR 50.000,00</div>
                             </div>
                             
                             <p class="text-xs text-gray-500 mt-4 text-center border-t pt-2">E-ticket ini berlaku sebagai alat validasi masuk studio. Mohon tunjukkan layar ini kepada petugas.</p>
                         </div>
                     </div>
-                    
-                    <!-- GARIS PERFORASI (Robekan) - Horizontal -->
-                    <div class="tear-off-line bg-transparent border-t-2 border-dashed border-gray-500 w-full h-1"></div>
-
-                    <!-- BAGIAN STUB/SOBEK (BAWAH) - Ringkasan data -->
-                    <div class="w-full bg-gray-900 text-white p-4 flex flex-row justify-between items-center">
-                        
-                        <div class="flex flex-col space-y-1">
-                            <div class="text-xs font-semibold tracking-wider text-gray-400">TICKET STUB</div>
-                            <div id="stub-title" class="text-sm font-bold uppercase truncate">MOVIE TITLE</div>
-                            <div id="stub-type" class="text-xs font-medium text-red-400">STANDARD</div>
-                        </div>
-                        
-                        <div class="flex flex-col text-right space-y-1">
-                            <div class="text-xs text-gray-400">SEAT / STUDIO</div>
-                            <div id="stub-seat" class="text-xl font-bold inline-block text-white">D12</div>
-                            <div id="stub-theater" class="text-sm text-gray-400">Studio 2</div>
-                        </div>
-                    </div>
                 </div>
-                <p class="absolute bottom-4 text-sm text-gray-500 typewriter-font hidden sm:block">Desain ini akan diubah menjadi JPG saat diunduh.</p>
+                <p class="absolute bottom-4 text-sm text-gray-500 typewriter-font hidden sm:block">Desain ini akan diubah menjadi PNG saat diunduh.</p>
             </div>
             
         </div>
@@ -227,10 +212,7 @@
             const rawPrice = parseFloat(form.price.value) || 0;
             ticketData.price = rawPrice.toFixed(2);
             
-            // Generate Serial Number jika belum ada atau setelah download sebelumnya
-            if (!currentSerialNumber || currentSerialNumber === '01234567') { // Menambahkan pengecekan default awal
-                currentSerialNumber = generateSerialNumber();
-            }
+            // Serial Number DITETAPKAN HANYA dari variabel global yang diinisialisasi
             ticketData.serial = currentSerialNumber;
             
             // Format ulang tanggal
@@ -238,33 +220,22 @@
             const formattedDate = dateObj.toLocaleDateString('id-ID', { day: '2-digit', month: '2-digit', year: 'numeric' });
             
             // Update elemen-elemen di tiket
-            
-            // Bagian Bawah (Stub) - Sudah diubah agar lebih ringkas dan horizontal
-            document.getElementById('stub-title').textContent = ticketData.title;
-            document.getElementById('stub-type').textContent = ticketData.type;
-            document.getElementById('stub-theater').textContent = `Studio ${ticketData.theater}`; // Tambahkan "Studio" di sini
-            document.getElementById('stub-seat').textContent = `${ticketData.row}${ticketData.seat}`;
-            
-            // Bagian Atas (Main)
             document.getElementById('main-title').textContent = ticketData.title;
-            document.getElementById('main-type').textContent = ticketData.type; // Update type di main section
+            document.getElementById('main-type').textContent = ticketData.type;
             document.getElementById('main-theater').textContent = ticketData.theater;
             document.getElementById('main-seat').textContent = `${ticketData.row}${ticketData.seat}`;
             document.getElementById('main-date').textContent = formattedDate;
             document.getElementById('main-time').textContent = ticketData.time;
             // Format IDR dengan koma sebagai pemisah desimal
             document.getElementById('main-price').textContent = `IDR ${ticketData.price.replace(/\./g, ',')}`;
-            document.getElementById('main-serial').textContent = ticketData.serial;
+            // Update serial number di blok besar
+            document.getElementById('main-serial').textContent = ticketData.serial || 'XXXXXXXX'; // Tambahkan fallback
         }
 
-        // Fungsi utama untuk mengunduh tiket sebagai JPG
+        // Fungsi utama untuk mengunduh tiket sebagai Gambar
         function generateAndDownloadImage() {
-            // Pastikan data terbaru sudah terupdate
+            // PENTING: Panggil update agar data input terakhir masuk ke preview
             updateTicketPreview();
-
-            const ticketElement = document.getElementById('ticket-preview');
-            const movieTitle = ticketData.title.replace(/ /g, '_');
-            const serialNumber = ticketData.serial;
 
             // Tampilkan pesan loading
             const loadingMessage = document.getElementById('loading-message');
@@ -272,53 +243,66 @@
             saveText.classList.add('hidden');
             loadingMessage.classList.remove('hidden');
 
-            // Gunakan html2canvas untuk mengambil screenshot dari elemen tiket
-            html2canvas(ticketElement, { 
-                scale: 3, // Skala lebih tinggi untuk resolusi lebih baik
-                useCORS: true,
-                backgroundColor: '#f3f4f6' // Pastikan latar belakang tetap terlihat bersih
-            }).then(canvas => {
-                // Konversi canvas menjadi data URL (JPG)
-                const imgData = canvas.toDataURL('image/jpeg', 0.9); // Kualitas 90%
+            // === START FIX: Menambahkan jeda waktu untuk memastikan DOM merender teks serial number ===
+            setTimeout(() => {
+                const ticketElement = document.getElementById('ticket-preview');
+                const movieTitle = ticketData.title.replace(/ /g, '_');
+                const serialNumberToDownload = ticketData.serial; // Ambil serial yang akan difoto
                 
-                // Buat link download
-                const link = document.createElement('a');
-                link.href = imgData;
-                link.download = `e-tiket_${movieTitle}_${serialNumber}.jpg`;
-                
-                // Simulasikan klik untuk memulai download
-                document.body.appendChild(link);
-                link.click();
-                document.body.removeChild(link);
+                // Konfigurasi untuk PNG
+                const fileMimeType = 'image/png';
+                const fileExtension = 'png';
 
-                // Sembunyikan pesan loading dan tampilkan teks Save kembali
-                loadingMessage.classList.add('hidden');
-                saveText.classList.remove('hidden');
-                
-                // Setelah download, generate Serial Number baru untuk entri berikutnya
-                currentSerialNumber = generateSerialNumber();
-                updateTicketPreview(); // Update preview dengan serial baru
-            }).catch(error => {
-                console.error("Gagal mengkonversi ke gambar:", error);
-                loadingMessage.classList.add('hidden');
-                saveText.classList.remove('hidden');
-            });
+                // Gunakan html2canvas untuk mengambil screenshot dari elemen tiket
+                html2canvas(ticketElement, { 
+                    scale: 3, // Skala lebih tinggi untuk resolusi lebih baik
+                    useCORS: true,
+                    backgroundColor: '#f3f4f6' // Pastikan latar belakang tetap terlihat bersih
+                }).then(canvas => {
+                    // Konversi canvas menjadi data URL (PNG)
+                    const imgData = canvas.toDataURL(fileMimeType);
+                    
+                    // Buat link download
+                    const link = document.createElement('a');
+                    link.href = imgData;
+                    // Gunakan serial number yang benar-benar difoto di dalam file name
+                    link.download = `e-tiket_${movieTitle}_${serialNumberToDownload}.${fileExtension}`; 
+                    
+                    // Simulasikan klik untuk memulai download
+                    document.body.appendChild(link);
+                    link.click();
+                    document.body.removeChild(link);
+
+                    // Sembunyikan pesan loading dan tampilkan teks Save kembali
+                    loadingMessage.classList.add('hidden');
+                    saveText.classList.remove('hidden');
+                    
+                    // Setelah download, generate Serial Number baru untuk PREVIEW entri berikutnya
+                    currentSerialNumber = generateSerialNumber();
+                    updateTicketPreview(); // Update preview dengan serial BARU
+                }).catch(error => {
+                    console.error("Gagal mengkonversi ke gambar:", error);
+                    loadingMessage.classList.add('hidden');
+                    saveText.classList.remove('hidden');
+                });
+            }, 50); // Jeda 50ms (cukup cepat)
+            // === END FIX ===
         }
 
         // Jalankan saat dokumen selesai dimuat
         window.onload = function() {
-            // Inisialisasi tampilan awal tiket dan serial number
-            currentSerialNumber = generateSerialNumber();
+            // 1. Inisialisasi tampilan awal tiket dan serial number
+            currentSerialNumber = generateSerialNumber(); // Generasi awal
             document.getElementById('ticket-form').reset();
-            updateTicketPreview();
+            updateTicketPreview(); // Panggilan pertama untuk menampilkan data
 
-            // Tambahkan event listener untuk update preview secara real-time
+            // 2. Tambahkan event listener untuk update preview secara real-time
             const formInputs = document.querySelectorAll('#ticket-form input, #ticket-form select');
             formInputs.forEach(input => {
                 input.addEventListener('input', updateTicketPreview);
             });
 
-            // Set aksi untuk tombol Save/Download
+            // 3. Set aksi untuk tombol Save/Download
             document.getElementById('save-button').addEventListener('click', generateAndDownloadImage);
         };
     </script>
